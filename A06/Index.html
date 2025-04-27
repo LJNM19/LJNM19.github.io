@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Gallery JS</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+    <style>
+        body {
+            background: linear-gradient(to bottom right, #e9e4d4, #d3cbb8);
+            font-family: 'Georgia', serif;
+            color: #3a3a3a;
+        }
+
+        #inquireButton {
+            transition: all 0.3s ease;
+            background-color: #f8f5f0;
+            border: 1px solid #c0b283;
+            color: #5b5b5b;
+        }
+
+        #inquireButton:hover {
+            background-color: #e0d6c2;
+        }
+
+        .gallery-card {
+            background-color: #f9f7f1;
+            border: 1px solid #c0b283;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .gallery-card:hover {
+            transform: scale(1.03);
+            box-shadow: 0 8px 16px rgba(160, 132, 94, 0.3);
+        }
+
+        .footer-toggle {
+            cursor: pointer;
+            color: #5b5b5b;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        .section-header {
+            font-family: 'Georgia', serif;
+            color: #4a4a4a;
+        }
+
+        .gallery-image {
+            width: 100%;
+            height: 350px;
+    object-fit: cover; 
+    object-position: center;
+    border-bottom: 1px solid #c0b283;
+}
+        
+
+        .image-placeholder {
+            width: 100%;
+            height: 200px;
+            background-color: #ddd;
+            text-align: center;
+            line-height: 200px;
+            color: #555;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid py-5" style="background-color: #e5dcc5;">
+        <div class="text-center">
+            <button id="linkbutton" class="btn btn-outline-dark mb-3"
+                onclick="window.location.href='../index.html'">Projects</button>
+        </div>
+        <div class="h2 text-center section-header mb-4">Gallery</div>
+    </div>
+
+    <div class="container my-5">
+        <div class="row" id="container-row"></div>
+    </div>
+
+    <div class="container-fluid py-5" style="background-color: #b0a18f; color: white;">
+        <div class="text-center">
+            <div class="h2 mb-4 section-header" style="color: white;">Contact</div>
+            <div onmouseover="inquireMouseEnter()" onmouseleave="inquireMouseLeave()" id="inquireButton"
+                class="card p-4 my-2 rounded-5 mx-auto shadow-sm" style="max-width: 200px;">Inquire</div>
+        </div>
+    </div>
+
+    <div class="container-fluid p-5" id="footer" style="background-color: #e8e0d0; color: #707070;">
+        <div class="h4 mb-3 section-header">Arm Wrestling Legends</div>
+        <div>World Champions</div>
+        <div>Legendary Matches</div>
+        <div>Unstoppable Strength</div>
+        <div>Ultimate Battles</div>
+        <div class="footer-toggle text-center" onclick="hideFooter()">Hide</div>
+    </div>
+
+    <div class="container-fluid p-3" id="footerShow" style="background-color: #e8e0d0; color: #707070; display: none;">
+        <div class="text-center footer-toggle" onclick="showFooter()">Show Footer</div>
+    </div>
+
+    <script>
+        function inquireMouseEnter() {
+            const btn = document.getElementById("inquireButton");
+            btn.style.backgroundColor = "#dcd2b9";
+            btn.classList.add("shadow");
+        }
+    
+        function inquireMouseLeave() {
+            const btn = document.getElementById("inquireButton");
+            btn.style.backgroundColor = "#f8f5f0";
+            btn.classList.remove("shadow");
+        }
+    
+        function hideFooter() {
+            document.getElementById("footer").style.display = "none";
+            document.getElementById("footerShow").style.display = "block";
+        }
+    
+        function showFooter() {
+            document.getElementById("footer").style.display = "block";
+            document.getElementById("footerShow").style.display = "none";
+        }
+    
+        var titles = [
+            "Devon Larratt", "Levan Saginashvili", "John Brzenk", "Denis Cyplenkov", "Vitaly Laletin", "Artyom Morozov",
+            "Alizhan Muratov", "Arsen Liliev", "Ermes Gasparini", "Andrey Pushkar", "Ivan Matyushenko", "Alexey Voevoda"
+        ];
+    
+        var images = [
+           "larratt.jpg", "saginashvili.jpg", "brzenk.jpg", "cyplenkov.jpg", "laletin.jpg", "morozov.jpg",
+           "muratov.jpg", "liliev.jpg", "gasparini.jpg", "pushkar.jpg", "matyushenko.jpg", "voevoda.jpg"
+        ];
+    
+        var contents = titles.map((title, index) => `Famous arm wrestler `);
+    
+        var rowElement = document.getElementById("container-row");
+    
+        for (var i = 0; i < titles.length; i++) {
+            let imageFile = images[i] || 'placeholder.jpg'; 
+            let imageSrc = 'img/' + imageFile; 
+            
+            rowElement.innerHTML += `
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                    <div class="card my-3 gallery-card rounded-5 overflow-hidden">
+                        <img src="${imageSrc}" class="card-img-top gallery-image" alt="${titles[i]}" onerror="this.onerror=null; this.src='img/placeholder.jpg';">
+                        <div class="card-body">
+                            <h5 class="card-title">${titles[i]}</h5>
+                            <p class="card-text">${contents[i]}</p>
+                            <a href="#" class="btn btn-outline-dark" onclick="viewImage('${imageSrc}')">View</a>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+    
+        function viewImage(src) {
+            window.open(src, '_blank');
+        }
+    </script> 
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous">
+    </script>
+</body>
+
+</html>
