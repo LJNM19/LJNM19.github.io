@@ -5,65 +5,129 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Gallery JS</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=EB+Garamond:wght@400;500;700&display=swap"
+        rel="stylesheet">
     <style>
+        /* CSS Variables for Theming */
+        :root {
+            /* Light Mode (Default) */
+            --bg-color: #e9e4d4;
+            /* UPDATED: Text colors set to black for light mode */
+            --text-color: #000000;
+            --header-text-color: #000000;
+            --glass-bg: rgba(255, 255, 255, 0.5);
+            --glass-border: rgba(0, 0, 0, 0.1);
+            --glass-shadow: rgba(0, 0, 0, 0.1);
+            --glass-inset: rgba(255, 255, 255, 0.05);
+            --post-bg: #f9f7f1;
+            --post-border: rgba(0, 0, 0, 0.05);
+            --subtle-text: #5b5b5b;
+            /* Changed particle-color to particle-rgb for easier JS manipulation */
+            --particle-rgb: 220, 38, 38;
+        }
+
+        body.dark-mode {
+            /* Dark Mode */
+            --bg-color: #1a1a1a;
+            --text-color: #d1d5db;
+            --header-text-color: #ffffff;
+            --glass-bg: rgba(20, 20, 20, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.05);
+            --glass-shadow: rgba(0, 0, 0, 0.1);
+            --glass-inset: rgba(255, 255, 255, 0.05);
+            --post-bg: rgba(20, 20, 20, 0.1);
+            /* Use glass-effect directly */
+            --post-border: rgba(255, 255, 255, 0.05);
+            --subtle-text: #9ca3af;
+            /* Particle color remains red in dark mode, but this could be changed */
+            --particle-rgb: 220, 38, 38;
+        }
+
         body {
-            background: linear-gradient(to bottom right, #e9e4d4, #d3cbb8);
-            font-family: 'Georgia', serif;
-            color: #3a3a3a;
+            font-family: 'EB Garamond', serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            overflow-x: hidden;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
-        #inquireButton {
-            transition: all 0.3s ease;
-            background-color: #f8f5f0;
-            border: 1px solid #c0b283;
-            color: black;
+        .glass-effect {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 2px 10px var(--glass-shadow),
+                inset 0 1px 0px var(--glass-inset);
+            transition: background-color 0.3s ease, border-color 0.3s ease;
         }
 
-
-        #inquireButton:hover {
-            background-color: #e0d6c2;
+        h1,
+        h2,
+        h3 {
+            font-family: 'Cinzel', serif;
+            color: var(--header-text-color);
         }
 
-        .gallery-card {
-            background-color: #f9f7f1;
-            border: 1px solid #c0b283;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        p,
+        span,
+        div {
+            color: var(--text-color);
         }
 
-        .gallery-card:hover {
-            transform: scale(1.03);
-            box-shadow: 0 8px 16px rgba(160, 132, 94, 0.3);
+        .subtle-text {
+            color: var(--subtle-text);
         }
 
-        .footer-toggle {
-            cursor: pointer;
-            color: #5b5b5b;
-            font-weight: 600;
-            margin-top: 10px;
+        .post-card {
+            border: 1px solid var(--post-border);
         }
 
-        .section-header {
-            font-family: 'Georgia', serif;
-            color: #4a4a4a;
+        .post-card p,
+        .post-card span {
+            color: var(--text-color);
         }
 
-        .gallery-image {
+        .post-card .post-header-name {
+            color: var(--header-text-color);
+        }
+
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
-            height: 350px;
-            object-fit: cover;
-            object-position: center;
-            border-bottom: 1px solid #c0b283;
+            height: 100%;
+            z-index: -1;
+            animation: fadeIn 3s ease-in-out;
         }
 
-        .image-placeholder {
-            width: 100%;
-            height: 200px;
-            background-color: #ddd;
-            text-align: center;
-            line-height: 200px;
-            color: #555;
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 0.8s ease-out forwards;
         }
 
         #imageViewer {
@@ -73,203 +137,320 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(250, 245, 235, 0.98);
+            background-color: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             z-index: 9999;
             text-align: center;
-            padding-top: 60px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
 
         #imageViewer img {
-            max-width: 90%;
-            max-height: 80%;
-            border: 5px solid #c0b283;
-            border-radius: 10px;
+            max-width: 90vw;
+            max-height: 80vh;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
         }
 
-        .dark-mode {
-            background: linear-gradient(to bottom right, #2c2c2c, #1e1e1e);
-            color: #f1f1f1;
+        /* Like Button Styling */
+        .like-btn {
+            fill: none;
+            stroke: currentColor;
+            transition: all 0.2s ease;
         }
 
-        .dark-mode .gallery-card {
-            background-color: #3a3a3a;
-            color: #f1f1f1;
-            border-color: #6c6c6c;
+        .like-btn.liked {
+            fill: #DC2626;
+            /* red-600 */
+            stroke: #DC2626;
         }
 
-        .dark-mode #inquireButton {
-            background-color: #555;
-            color: #eee;
-            border-color: #999;
+        .footer-toggle {
+            cursor: pointer;
+            color: var(--subtle-text);
+            font-weight: 600;
         }
 
-        .dark-mode #inquireButton:hover {
-            background-color: #666;
-        }
-
-        .dark-mode .footer-toggle {
-            color: #ddd;
-        }
-
-        .dark-mode .section-header {
-            color: #eaeaea;
-        }
-
-        .dark-mode #footer,
-        .dark-mode #footerShow {
-            background-color: #2b2b2b;
-            color: #cfcfcf;
-        }
-
-        .dark-mode .btn-outline-dark {
-            border-color: #ccc;
-            color: #ccc;
-        }
-
-        .dark-mode .btn-outline-dark:hover {
-            background-color: #444;
-            color: white;
+        .footer-toggle:hover {
+            color: var(--text-color);
         }
     </style>
 </head>
 
-<body>
-    <div class="container-fluid py-3 text-end">
-        <button class="btn btn-light mode" id="theme-toggle">Light Mode</button>
-    </div>
+<body class="antialiased">
+    <canvas id="particle-canvas"></canvas>
 
-    <div class="container-fluid py-5"></div>
-    <div class="text-center">
-        <button id="linkbutton" class="btn btn-outline-dark mb-3"
-            onclick="window.location.href='../index.html'">Projects</button>
-    </div>
-    <div class="h2 text-center section-header mb-4">Gallery</div>
-    </div>
+    <div class="relative z-10 min-h-screen">
+        <!-- Header -->
+        <header class="container mx-auto max-w-7xl px-4 py-6 flex flex-col sm:flex-row justify-between items-center gap-4 fade-in-up"
+            style="animation-delay: 0.1s;">
+            <!-- UPDATED: Removed text-white to allow theme variable to control color -->
+            <h1 class="text-3xl md:text-4xl font-bold">
+                Arm Wrestler Gallery
+            </h1>
+            <div class="flex items-center gap-4">
+                <!-- UPDATED: Removed text-white to allow theme variable to control color -->
+                <button id="theme-toggle"
+                    class="glass-effect px-6 py-2 rounded-full hover:bg-white/20 transition-all duration-300 transform hover:scale-105">
+                    <!-- Text will be set by JS -->
+                </button>
+                <!-- UPDATED: Removed text-white to allow theme variable to control color -->
+                <a href="../index.html"
+                    class="glass-effect px-6 py-2 rounded-full hover:bg-white/20 transition-all duration-300 transform hover:scale-105 inline-block flex-shrink-0">
+                    ← Back
+                </a>
+            </div>
+        </header>
 
-    <div class="container my-5">
-        <div class="row" id="container-row"></div>
-    </div>
+        <!-- Main Instagram-style Feed -->
+        <main id="feed-container" class="max-w-2xl mx-auto space-y-8 py-8 px-4">
+            <!-- Posts will be injected here by JavaScript -->
+        </main>
 
-    <div class="container-fluid py-5">
-        <div class="text-center">
-            <div class="h2 mb-4 section-header" style="color: whitesmoke;">Contact</div>
-            <div onmouseover="inquireMouseEnter()" onmouseleave="inquireMouseLeave()" id="inquireButton"
-                id="inquireButton" class="card p-4 my-2 rounded-5 mx-auto shadow-sm"
-                style="max-width: 200px; color: black;">
-                Inquire
+        <!-- Footer -->
+        <footer class="container mx-auto max-w-2xl px-4 pb-8">
+            <div id="footer" class="glass-effect rounded-2xl p-6 fade-in-up" style="animation-delay: 1.5s;">
+                <h3 class="text-xl font-bold mb-3">Arm Wrestling Legends</h3>
+                <div class="space-y-1 subtle-text text-sm">
+                    <p>World Champions</p>
+                    <p>Legendary Matches</p>
+                    <p>Unstoppable Strength</p>
+                    <p>Ultimate Battles</p>
+                </div>
+                <div class="footer-toggle text-center mt-4" onclick="hideFooter();">Hide</div>
             </div>
 
-        </div>
+            <div id="footerShow" class="glass-effect rounded-2xl p-3 text-center fade-in-up"
+                style="display: none; animation-delay: 1.5s;">
+                <div class="footer-toggle" onclick="showFooter()">Show Footer</div>
+            </div>
+        </footer>
 
-        <div class="container-fluid p-5" id="footer" style="background-color: #e8e0d0; color: black;">
-            <div class="h4 mb-3 section-header" style="color: black;">Arm Wrestling Legends</div>
-            <div>World Champions</div>
-            <div>Legendary Matches</div>
-            <div>Unstoppable Strength</div>
-            <div>Ultimate Battles</div>
-            <div class="footer-toggle text-center" style="color: #1e1e1e;"
-                onclick="hideFooter(); changeFooterToggleColor();">Hide</div>
+    </div>
 
+    <!-- Image Viewer Modal -->
+    <div id="imageViewer" style="display: none;">
+        <img id="fullImage" src="" alt="Full View">
+        <button id="close-btn" onclick="closeImage()"
+            class="glass-effect text-white px-6 py-2 rounded-full hover:bg-white/20 transition-all duration-300 transform hover:scale-105 mt-6">
+            Close
+        </button>
+    </div>
 
-        </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Set Default Theme ---
+            // This sets dark mode by default as requested
+            document.body.classList.add('dark-mode');
+            const themeToggleBtn = document.getElementById('theme-toggle');
+            // UPDATED: If default is dark mode, button should show "Light Mode"
+            themeToggleBtn.textContent = "Light Mode";
 
-        <div class="container-fluid p-3" id="footerShow"
-            style="background-color: #e8e0d0; color: white; display: none;">
-            <div class="text-center footer-toggle" style="color: black;" onclick="showFooter()">Show Footer</div>
-
-        </div>
-
-        <div id="imageViewer">
-            <img id="fullImage" src="" alt="Full View">
-            <br><br>
-            <button onclick="closeImage()" class="btn btn-outline-dark mt-3" style="color: black;">Back</button>
-        </div>
-
-        <script>
-
-            function inquireMouseEnter() {
-                const btn = document.getElementById("inquireButton");
-                btn.style.backgroundColor = "#dcd2b9";
-                btn.classList.add("shadow");
-            }
-
-            function inquireMouseLeave() {
-                const btn = document.getElementById("inquireButton");
-                btn.style.backgroundColor = "#f8f5f0";
-                btn.classList.remove("shadow");
-            }
-
-            function hideFooter() {
-                document.getElementById("footer").style.display = "none";
-                document.getElementById("footerShow").style.display = "block";
-            }
-
-            function showFooter() {
-                document.getElementById("footer").style.display = "block";
-                document.getElementById("footerShow").style.display = "none";
-            }
-
-            var titles = [
+            // --- Gallery Data ---
+            const titles = [
                 "Devon Larratt", "Levan Saginashvili", "John Brzenk", "Denis Cyplenkov", "Vitaly Laletin", "Artyom Morozov",
                 "Alizhan Muratov", "Arsen Liliev", "Ermes Gasparini", "Andrey Pushkar", "Ivan Matyushenko", "Alexey Voevoda"
             ];
 
-            var images = [
+            const images = [
                 "larratt.jpg", "saginashvili.jpg", "brzenk.jpg", "cyplenkov.jpg", "laletin.jpg", "morozov.jpg",
                 "muratov.jpg", "liliev.jpg", "gasparini.jpg", "pushkar.jpg", "matyushenko.jpg", "voevoda.jpg"
             ];
 
-            var contents = titles.map((title) => "Famous arm wrestler");
+            const contents = titles.map((title) => "Famous arm wrestler");
 
-            var rowElement = document.getElementById("container-row");
+            // --- Profile Data ---
+            const profileName = "ljnm"; // UPDATED
+            const profileImg = "../Profile Image/488504166_2206306633136417_1602460679336947609_n.jpg";
+            const profileImgPlaceholder = "https://placehold.co/40x40/333333/FFFFFF?text=LJ";
 
-            for (var i = 0; i < titles.length; i++) {
-                let imageFile = images[i] || 'placeholder.jpg';
-                let imageSrc = 'img/' + imageFile;
+            // --- Render Feed ---
+            const feedContainer = document.getElementById("feed-container");
+            if (feedContainer) {
+                for (let i = 0; i < titles.length; i++) {
+                    const imageSrc = 'img/' + images[i];
+                    const title = titles[i];
+                    const caption = contents[i];
 
-                rowElement.innerHTML += `
-                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                    <div class="card my-3 gallery-card rounded-5 overflow-hidden">
-                        <img src="${imageSrc}" class="card-img-top gallery-image" alt="${titles[i]}" onerror="this.onerror=null; this.src='img/placeholder.jpg';">
-                        <div class="card-body">
-                            <h5 class="card-title">${titles[i]}</h5>
-                            <p class="card-text">${contents[i]}</p>
-                            <a href="#" class="btn btn-outline-dark" onclick="viewImage('${imageSrc}')">View</a>
+                    const postHTML = `
+                        <div class="glass-effect post-card rounded-2xl overflow-hidden fade-in-up" style="animation-delay: ${i * 0.1 + 0.2}s;">
+                            <!-- Post Header -->
+                            <div class="flex items-center gap-3 p-4 border-b post-border">
+                                <img src="${profileImg}" onerror="this.src='${profileImgPlaceholder}'" alt="Profile" class="w-10 h-10 rounded-full object-cover border-2 border-white/10">
+                                <div>
+                                    <p class="font-semibold post-header-name">${profileName}</p>
+                                    <p class="text-xs subtle-text"></p>
+                                </div>
+                                <svg class="w-5 h-5 subtle-text ml-auto cursor-pointer" fill="currentColor" viewBox="0 0 20 20"><path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"/></svg>
+                            </div>
+
+                            <!-- Post Image -->
+                            <div class="bg-black/20">
+                                <img src="${imageSrc}" alt="${title}" class="max-h-[70vh] w-full object-contain" onerror="this.src='https://placehold.co/600x600/333333/FFFFFF?text=Image+Not+Found'">
+                            </div>
+
+                            <!-- Post Actions -->
+                            <div class="flex items-center gap-4 p-4 border-t post-border">
+                                <!-- Like -->
+                                <svg class="like-btn w-6 h-6 hover:text-red-500 transition-colors cursor-pointer" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 016.364 0L12 7.636l1.318-1.318a4.5 4.5 0 016.364 6.364L12 20.364l-7.682-7.682a4.5 4.5 0 010-6.364z"></path></svg>
+                                <!-- Comment -->
+                                <svg class="w-6 h-6 hover:text-gray-300 transition-colors cursor-pointer" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 5.523-4.477 10-10 10S1 17.523 1 12 5.477 2 11 2s10 4.477 10 10z"></path></svg>
+                                <!-- Share -->
+                                <svg class="w-6 h-6 hover:text-gray-300 transition-colors cursor-pointer" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
+                                
+                                <button class="glass-effect text-xs px-3 py-1 rounded-full ml-auto hover:bg-white/20 transition-all" onclick="viewImage('${imageSrc}')">View</button>
+                            </div>
+                            
+                            <!-- Post Caption -->
+                            <!-- UPDATED: Removed profileName span and fixed class_name typo -->
+                            <div class="px-4 pb-4">
+                                <p>
+                                    <span class="font-['Cinzel'] font-bold text-lg"> ${title}</span> - ${caption}
+                                </p>
+                            </div>
                         </div>
-                    </div>
-                </div>
-            `;
+                    `;
+                    feedContainer.innerHTML += postHTML;
+                }
+
+                // --- Add Event Listeners AFTER posts are created ---
+                
+                // Like Button Listeners
+                document.querySelectorAll('.like-btn').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        btn.classList.toggle('liked');
+                    });
+                });
             }
 
-            function viewImage(src) {
-                document.getElementById("fullImage").src = src;
-                document.getElementById("imageViewer").style.display = "block";
-                document.body.style.overflow = "hidden";
-            }
-
-            function closeImage() {
-                document.getElementById("imageViewer").style.display = "none";
-                document.getElementById("fullImage").src = "";
-                document.body.style.overflow = "auto";
-            }
-            document.getElementById("theme-toggle").addEventListener("click", function () {
+            // --- Theme Toggle Listener ---
+            themeToggleBtn.addEventListener("click", function () {
                 const body = document.body;
-                const btn = document.getElementById("theme-toggle");
-
                 body.classList.toggle("dark-mode");
 
+                // UPDATED: Swapped logic
                 if (body.classList.contains("dark-mode")) {
-                    btn.textContent = "Dark Mode";
+                    themeToggleBtn.textContent = "Light Mode";
                 } else {
-                    btn.textContent = "Light Mode";
+                    themeToggleBtn.textContent = "Dark Mode";
                 }
             });
 
-        </script>
+            // --- Particle Canvas Logic ---
+            const canvas = document.getElementById('particle-canvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            if (!ctx) return;
 
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous">
-            </script>
+            let particles = [];
+            const numParticles = 100;
+
+            function resizeCanvas() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+                initParticles();
+            }
+
+            class Particle {
+                constructor() {
+                    this.x = Math.random() * canvas.width;
+                    this.y = Math.random() * canvas.height;
+                    this.z = Math.random() * (canvas.width / 2);
+                    this.size = Math.random() * 4 + 2;
+                    this.opacity = Math.random() * 0.4 + 0.2;
+                    this.baseSpeed = 0.05;
+                    this.speedX = (Math.random() - 0.5) * this.baseSpeed * (this.z / (canvas.width / 2));
+                    this.speedY = (Math.random() - 0.5) * this.baseSpeed * (this.z / (canvas.width / 2)) + this.baseSpeed * 1.5;
+                }
+
+                update() {
+                    this.x += this.speedX;
+                    this.y += this.speedY;
+                    if (this.x < 0) this.x = canvas.width;
+                    if (this.x > canvas.width) this.x = 0;
+                    if (this.y < 0) this.y = canvas.height;
+                    if (this.y > canvas.height) this.y = 0;
+                }
+
+                // UPDATE: Accepts particleRGB string from animate loop
+                draw(particleRGB) {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    // Use the CSS variable for color and particle's own opacity
+                    ctx.fillStyle = `rgba(${particleRGB}, ${this.opacity})`;
+                    ctx.fill();
+                }
+            }
+
+            function initParticles() {
+                particles = [];
+                for (let i = 0; i < numParticles; i++) {
+                    particles.push(new Particle());
+                }
+            }
+
+            let animationFrameId = null;
+            function animate() {
+                // UPDATE: Get current theme colors from computed CSS variables
+                const computedStyle = getComputedStyle(document.body);
+                const bgColor = computedStyle.getPropertyValue('--bg-color').trim();
+                const particleRGB = computedStyle.getPropertyValue('--particle-rgb').trim();
+
+                // Set canvas background
+                ctx.fillStyle = bgColor;
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                
+                particles.forEach(particle => {
+                    particle.update();
+                    // Pass the themed color to the draw function
+                    particle.draw(particleRGB);
+                });
+                animationFrameId = requestAnimationFrame(animate);
+            }
+
+            window.addEventListener('resize', () => {
+                if (animationFrameId) {
+                    cancelAnimationFrame(animationFrameId);
+                }
+                resizeCanvas();
+                animate();
+            });
+
+            resizeCanvas();
+            animate();
+        });
+
+        // --- Global Functions ---
+        function viewImage(src) {
+            document.getElementById("fullImage").src = src;
+            document.getElementById("imageViewer").style.display = "flex";
+            document.body.style.overflow = "hidden";
+        }
+
+        function closeImage() {
+            document.getElementById("imageViewer").style.display = "none";
+            document.getElementById("fullImage").src = "";
+            document.body.style.overflow = "auto";
+        }
+
+        function hideFooter() {
+            document.getElementById("footer").style.display = "none";
+            document.getElementById("footerShow").style.display = "block";
+        }
+
+        function showFooter() {
+            document.getElementById("footer").style.display = "block";
+            document.getElementById("footerShow").style.display = "none";
+        }
+    </script>
 </body>
 
 </html>
+
+
+

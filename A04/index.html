@@ -1,81 +1,245 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>iPhone 16 Pro Showcase</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=EB+Garamond:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'EB Garamond', serif;
+            background-color: #1a1a1a; 
+            color: #d1d5db; 
+            overflow-x: hidden;
+        }
+
+        .glass-effect {
+            background: rgba(20, 20, 20, 0.1); 
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05); 
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1), 
+                        inset 0 1px 0px rgba(255, 255, 255, 0.05);
+        }
+        
+        h1, h2, h3 {
+            font-family: 'Cinzel', serif;
+        }
+
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2; 
+            animation: fadeIn 3s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes glow {
+            0%, 100% { 
+                opacity: 0.8;
+                filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.7));
+            }
+            50% { 
+                opacity: 1; 
+                filter: drop_shadow(0 0 20px rgba(255, 255, 255, 1));
+            }
+        }
+        #apple-logo {
+            animation: glow 2.5s ease-in-out infinite;
+        }
+
+        .bento-item {
+            transition: all 0.3s ease-in-out;
+            background-color: rgba(30, 30, 30, 0.5); 
+        }
+        .bento-item:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        .bento-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    </style>
 </head>
+<body class="antialiased">
 
-<body>
+    <div id="splash-screen" class="fixed top-0 left-0 w-screen h-screen bg-black flex items-center justify-center z-50 transition-opacity duration-1000 ease-in-out">
+        <img id="apple-logo" class="w-24 h-24" src="../Profile Image/apple.png" alt="Apple Logo Placeholder">
+    </div>
+
+    <canvas id="particle-canvas"></canvas>
+
+    <div class="container mx-auto max-w-7xl p-5 text-center">
+        <button onclick="window.location.href='../index.html'" class="glass-effect text-white px-6 py-2 rounded-full hover:bg-white/20 transition-all mb-4 duration-300 transform hover:scale-105">
+            Projects
+        </button>
+        <h1 class="text-white text-4xl md:text-5xl font-bold">iPhone 16 Pro</h1>
+    </div>
+
     
-    <div class="container-fluid p-5" style="background-color: black;">
-        <div class="row">
-            <div class="col text-center">
-                <button id="linkbutton" class="btn btn-outline-light mb-3" onclick="window.location.href='../index.html'">
-                    Projects
-                </button>
-                <h1 class="text-white">iPhone 16 Pro</h1>
-            </div>
-        </div>
-    </div>
-
-   
-    <div class="container-fluid" style="background-color: #F2F1ED;">
-        <div class="row justify-content-center">
+    <div class="container mx-auto max-w-7xl p-4">
+        <div class="grid grid-cols-3 gap-4 auto-rows-fr">
             
-            <div class="col-12 col-md-10">
-                <div class="row">
-                    
-                    <div class="col-12 col-sm-6 col-md-4 mb-4">
-                        <div class="card shadow rounded-4 h-100">
-                            <img src="Pictures/iPhone16Pro.png"
-                                class="img-fluid object-fit-cover border rounded-4 w-100 h-100" alt="iPhone16Pro">
-                        </div>
-                    </div>
-                    <div class="col-12 col-sm-6 col-md-4 mb-4">
-                        <div class="card shadow rounded-4 h-100">
-                            <img src="Pictures/iPhone UI.jpg"
-                                class="img-fluid object-fit-cover border rounded-4 w-100 h-100" alt="iPhone UI">
-                        </div>
-                    </div>
-                    <div class="col-12 col-sm-6 col-md-4 mb-4">
-                        <div class="card shadow rounded-4 h-100">
-                            <img src="Pictures/iPhone quality.jpg"
-                                class="img-fluid object-fit-cover border rounded-4 w-100 h-100" alt="iPhone Quality">
-                        </div>
-                    </div>
+            <div class="glass-effect rounded-2xl col-span-3 md:col-span-2 row-span-2 overflow-hidden bento-item">
+                <img src="Pictures/iPhone16Pro.png"
+                     alt="iPhone 16 Pro"
+                     onerror="this.src='https://placehold.co/800x800/333333/FFFFFF?text=iPhone+16+Pro'">
+            </div>
+            
+            <div class="glass-effect rounded-2xl col-span-3 md:col-span-1 md:row-span-1 overflow-hidden bento-item">
+                <img src="Pictures/iPhone UI.jpg"
+                     alt="iPhone UI"
+                     onerror="this.src='https://placehold.co/400x400/333333/FFFFFF?text=iPhone+UI'">
+            </div>
+            
+            <div class="glass-effect rounded-2xl col-span-3 md:col-span-1 md:row-span-1 overflow-hidden bento-item">
+                <img src="Pictures/iPhone quality.jpg"
+                     alt="iPhone Quality"
+                     onerror="this.src='https://placehold.co/400x400/333333/FFFFFF?text=iPhone+Quality'">
+            </div>
 
-                    
-                    <div class="col-12 col-sm-6 col-md-4 mb-4">
-                        <div class="card shadow rounded-4 h-100">
-                            <img src="Pictures/apple_a18pro_chip.jpg"
-                                class="img-fluid object-fit-cover border rounded-4 w-100 h-100" alt="iPhone16Pro">
-                        </div>
-                    </div>
-                    <div class="col-12 col-sm-6 col-md-4 mb-4">
-                        <div class="card shadow rounded-4 h-100">
-                            <img src="Pictures/iPhone display.jpg"
-                                class="img-fluid object-fit-cover border rounded-4 w-100 h-100" alt="iPhone16Pro">
-                        </div>
-                    </div>
-                    <div class="col-12 col-sm-6 col-md-4 mb-4">
-                        <div class="card shadow rounded-4 h-100">
-                            <img src="Pictures/iPhone specs.jpeg"
-                                class="img-fluid object-fit-cover border rounded-4 w-100 h-100" alt="iPhone16Pro">
-                        </div>
-                    </div>
-                </div>
+            
+            <div class="glass-effect rounded-2xl col-span-3 md:col-span-1 md:row-span-1 overflow-hidden bento-item">
+                <img src="Pictures/apple_a18pro_chip.jpg"
+                     alt="A18 Pro Chip"
+                     onerror="this.src='https://placehold.co/400x400/333333/FFFFFF?text=A18+Chip'">
+            </div>
+            
+            <div class="glass-effect rounded-2xl col-span-3 md:col-span-1 md:row-span-1 overflow-hidden bento-item">
+                <img src="Pictures/iPhone display.jpg"
+                     alt="iPhone Display"
+                     onerror="this.src='https://placehold.co/400x400/333333/FFFFFF?text=Display'">
+            </div>
+            
+            <div class="glass-effect rounded-2xl col-span-3 md:col-span-1 md:row-span-1 overflow-hidden bento-item">
+                <img src="Pictures/iPhone specs.jpeg"
+                     alt="iPhone Specs"
+                     onerror="this.src='https://placehold.co/400x400/333333/FFFFFF?text=Specs'">
             </div>
         </div>
     </div>
 
-   
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq"
-        crossorigin="anonymous"></script>
-</body>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            setTimeout(() => {
+                const splash = document.getElementById('splash-screen');
+                if (splash) {
+                    splash.style.opacity = '0';
+                    
+                    setTimeout(() => {
+                        splash.style.display = 'none';
+                    }, 1000); 
+                }
+            }, 2000); 
+
+            
+            const canvas = document.getElementById('particle-canvas');
+            if (!canvas) {
+                console.error("Particle canvas not found");
+                return;
+            }
+            const ctx = canvas.getContext('2d');
+            if (!ctx) {
+                console.error("Could not get 2D context");
+                return;
+            }
+
+
+            let particles = [];
+            const numParticles = 100; 
+
+            function resizeCanvas() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+                initParticles(); 
+            }
+
+            class Particle {
+                constructor() {
+                    this.x = Math.random() * canvas.width;
+                    this.y = Math.random() * canvas.height;
+                    
+                    this.z = Math.random() * (canvas.width / 2); 
+                    this.size = Math.random() * 4 + 2; 
+                    this.opacity = Math.random() * 0.4 + 0.2; 
+                    
+                    
+                    this.baseSpeed = 0.05;
+                    
+                    
+                    this.speedX = (Math.random() - 0.5) * this.baseSpeed * (this.z / (canvas.width / 2));
+                    this.speedY = (Math.random() - 0.5) * this.baseSpeed * (this.z / (canvas.width / 2)) + this.baseSpeed * 1.5; 
+                }
+
+                update() {
+                    this.x += this.speedX;
+                    this.y += this.speedY;
+
+                    
+                    if (this.x < 0) this.x = canvas.width;
+                    if (this.x > canvas.width) this.x = 0;
+                    if (this.y < 0) this.y = canvas.height;
+                    if (this.y > canvas.height) this.y = 0;
+                }
+
+                draw() {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    
+                    ctx.fillStyle = `rgba(220, 38, 38, ${this.opacity})`;
+                    ctx.fill();
+                }
+            }
+
+            function initParticles() {
+                particles = [];
+                for (let i = 0; i < numParticles; i++) {
+                    particles.push(new Particle());
+                }
+            }
+
+            let animationFrameId = null;
+            function animate() {
+                
+                ctx.fillStyle = '#1a1a1a';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                particles.forEach(particle => {
+                    particle.update();
+                    particle.draw();
+                });
+
+                animationFrameId = requestAnimationFrame(animate);
+            }
+
+            
+            window.addEventListener('resize', () => {
+                if (animationFrameId) {
+                    cancelAnimationFrame(animationFrameId);
+                }
+                resizeCanvas();
+                animate();
+            });
+
+            
+            resizeCanvas(); 
+            animate(); 
+        });
+    </script>
+</body>
 </html>
+

@@ -1,224 +1,872 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Prime Peak</title>
-  <link rel="icon" href="Profile Image/Logo1-removebg-preview.png">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LJNM</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=EB+Garamond:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        
+        body {
+            
+            font-family: 'EB Garamond', serif;
+            
+            background-color: #1a1a1a; 
+            color: #d1d5db; 
+            overflow-x: hidden;
+        }
 
-  <style>
-    :root {
-      --bg-color-light: #f3f1ec;
-      --text-color-light: #2b2b2b;
-      --card-bg-light: #fffefb;
+        
+        .glass-effect {
+            
+            background: rgba(20, 20, 20, 0.1); 
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            
+            border: 1px solid rgba(255, 255, 255, 0.05); 
+            
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1), 
+                        inset 0 1px 0px rgba(255, 255, 255, 0.05);
+        }
 
-      --bg-color-dark: #1f1f1f;
-      --text-color-dark: #f1f1f1;
-      --card-bg-dark: #2c2c2c;
-    }
+        
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #2b2b2b; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(220, 38, 38, 0.5); 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(220, 38, 38, 0.7);
+        }
+        
+        
+        h1, h2, h3 {
+            font-family: 'Cinzel', serif;
+        }
 
-    body {
-      background-color: var(--bg-color-light);
-      color: var(--text-color-light);
-      font-family: 'Georgia', serif;
-      transition: background-color 0.3s, color 0.3s;
-      background-image: url('https://www.toptal.com/designers/subtlepatterns/patterns/gplay.png');
-      background-repeat: repeat;
-    }
+        
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            
+            animation: fadeIn 3s ease-in-out;
+        }
 
-    .profile-header {
-      background: linear-gradient(to right, #1c1c1c, #4b4b4b);
-      color: white;
-      padding: 60px 0;
-      position: relative;
-    }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
 
-    .profile-img {
-      max-height: 150px;
-      width: 150px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 4px solid #fff;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-      max-width: 100%;
-    }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
-    .projects-title {
-      font-weight: 600;
-      font-size: 2.5rem;
-      text-align: center;
-      margin-bottom: 30px;
-      color: #3a3a3a;
-    }
+        .fade-in-up {
+            
+            animation: fadeInUp 1s ease-out forwards;
+            
+            opacity: 0; 
+            will-change: opacity, transform; 
+        }
 
-    .card {
-      background-color: var(--card-bg-light);
-      transition: transform 0.3s ease, background-color 0.3s ease;
-      border: 1px solid #d6ccc2;
-      border-radius: 12px;
-    }
-
-    .card:hover {
-      transform: translateY(-5px);
-    }
-
-    @media (max-width: 768px) {
-      .projects-title {
-        font-size: 2rem;
-      }
-    }
-
-    html {
-      background: none;
-    }
-
-    .social-icons {
-      margin-top: 15px;
-    }
-
-    .social-icons a {
-      color: #ffffff;
-      margin: 0 10px;
-      font-size: 1.5rem;
-      text-decoration: none;
-    }
-
-    .social-icons a:hover {
-      color: #00adb5;
-    }
-
-    .card-body {
-      padding: 20px;
-    }
-
-    .btn-primary {
-      background-color: #00adb5;
-      border-color: #00adb5;
-    }
-
-    .btn-primary:hover {
-      background-color: #009a92;
-      border-color: #009a92;
-    }
+        
+        #home.fade-in-up {
+            animation-delay: 0.2s;
+        }
+        #music-player.fade-in-up {
+            animation-delay: 0.4s;
+        }
+        #projects.fade-in-up {
+            animation-delay: 0.6s;
+        }
 
 
-    .username {
-      color: white;
-    }
-  </style>
+        
+        .music-player-container {
+            max-width: 400px;
+            position: relative; 
+        }
+
+        
+        #album-art {
+            width: 250px;
+            height: 250px;
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+            
+            background-color: #111; 
+            border: 8px solid #222; 
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(0,0,0,0.7);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden; 
+            z-index: 10; 
+        }
+        
+        #album-art::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 50%;
+            
+            background-image: repeating-radial-gradient(
+                circle at center,
+                rgba(255, 255, 255, 0.05) 0,
+                rgba(255, 255, 255, 0.05) 1px,
+                transparent 1px,
+                transparent 3px
+            );
+            background-size: 100% 100%;
+            opacity: 0.3; 
+            z-index: 5; 
+        }
+
+        
+        #album-art::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(
+                to right,
+                rgba(255, 255, 255, 0) 0%,
+                rgba(255, 255, 255, 0.15) 50%, 
+                rgba(255, 255, 255, 0) 100%
+            );
+            transform: translateX(-150%) skewX(-20deg);
+            z-index: 15; 
+            animation: shine 5s linear infinite; 
+            animation-delay: 1s; 
+        }
+
+        
+        .disc-label {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background-color: #DC2626; 
+            border: 2px solid #a31a1a;
+            position: relative;
+            z-index: 20; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        
+        .disc-label::after {
+            content: '';
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: #1a1a1a; 
+            border: 1px solid #000;
+        }
+
+        
+        @keyframes shine {
+            0% {
+                transform: translateX(-150%) skewX(-20deg);
+                opacity: 0.1;
+            }
+            50% {
+                transform: translateX(150%) skewX(-20deg);
+                opacity: 0.05;
+            }
+            100% {
+                transform: translateX(150%) skewX(-20deg);
+                opacity: 0;
+            }
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .spinning {
+            animation: spin 3s linear infinite; 
+        }
+
+        
+        #tone-arm {
+            position: absolute;
+            top: 20px; 
+            right: 10px; 
+            width: 150px; 
+            height: 150px; 
+            transform-origin: 100% 10%; 
+            transition: transform 0.5s ease-out; 
+            z-index: 20; 
+        }
+
+        
+        #tone-arm.lifted {
+            transform: rotate(10deg); 
+        }
+
+        
+        #tone-arm.playing {
+            transform: rotate(-30deg); 
+        }
+
+
+        .controls button {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            color: white;
+            z-index: 15; 
+        }
+
+        .controls button:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .controls button#play-pause-btn {
+            width: 60px;
+            height: 60px;
+            background: #DC2626; 
+        }
+        .controls button#play-pause-btn:hover {
+            background: #B91C1C; 
+        }
+
+        
+        .custom-select {
+            position: relative;
+            font-family: 'EB Garamond', serif;
+        }
+
+        .custom-select select {
+            display: block;
+            width: 100%;
+            padding: 0.75rem 1rem;
+            font-size: 1rem;
+            color: #d1d5db;
+            background-color: rgba(30, 30, 30, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 0.5rem;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            cursor: pointer;
+        }
+        .custom-select-arrow {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            align-items: center;
+            padding-right: 1rem;
+            pointer-events: none;
+        }
+
+        
+        #music-notes-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none; 
+            z-index: 30; 
+        }
+    </style>
 </head>
+<body class="antialiased">
 
-<body>
+    <canvas id="particle-canvas"></canvas>
 
-
-  <div class="profile-header text-center">
-    <div class="container">
-      <div class="row justify-content-center align-items-center text-center text-md-start">
-        <div class="col-12 col-md-3 mb-4 mb-md-0 d-flex justify-content-center">
-          <img src="Profile Image/488504166_2206306633136417_1602460679336947609_n.jpg" alt="Profile Image"
-            class="profile-img">
-        </div>
-        <div class="col-12 col-md-6">
-          <h2 class="fw-bold mb-1">Lestin Jan</h2>
-          <p class="username mb-2">@Lestin Jan N. Malbataan</p>
-          <p class="mb-2">"Improving myself because my future partner deserves the best version of me."</p>
-          <p class="fst-italic text-white">In the gym we trust</p>
-          <div class="d-flex justify-content-center justify-content-md-start gap-2 mt-3 flex-wrap">
-            <button class="btn btn-primary btn-sm px-4 rounded-pill">Follow</button>
-            <button class="btn btn-outline-secondary btn-sm px-4 rounded-pill">Message</button>
-            <div class="social-icons">
-              <a href="https://www.instagram.com/ljnn.m_/" target="_blank" class="fab fa-instagram"></a>
-              <a href="https://github.com/ljnm19" target="_blank" class="fab fa-github"></a>
-              <a href="https://www.facebook.com/lestin.malbataan" target="_blank" class="fab fa-facebook"></a>
+    <nav class="glass-effect fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+        <div class="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div class="flex h-16 items-center justify-between">
+                <div class="flex items-center">
+                    <span class="text-xl font-bold text-white" style="font-family: 'Cinzel', serif;">LJNM </span>
+                </div>
+                <div class="hidden md:flex items-center space-x-4">
+                    <a href="#home" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">Home</a>
+                    <a href="#projects" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">Projects</a>
+                    <a href="#contact" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">Contact</a>
+                </div>
+                <div class="md:hidden">
+                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
-    </div>
-  </div>
+    </nav>
 
-
-  <div class="container my-5">
-    <div class="projects-title">My Projects</div>
-    <div class="row g-4">
-
-
-      <div class="col-12 col-sm-6 col-lg-4 d-flex">
-        <div class="card shadow-sm w-100">
-          <div class="card-body d-flex flex-column justify-content-between h-100">
-            <div>
-              <h5 class="card-title">A04</h5>
-              <h6 class="card-subtitle mb-2 text-muted">iPhone 16 Pro Showcase</h6>
+    <main class="pt-24"> <header id="home" class="container mx-auto max-w-5xl px-4 py-16 glass-effect rounded-2xl p-8 md:p-12 fade-in-up">
+            <div class="flex flex-col md:flex-row items-center text-center md:text-left">
+                <div class="w-40 h-40 md:w-48 md:h-48 flex-shrink-0 mb-6 md:mb-0 md:mr-10">
+                        <img src="Profile Image/488504166_2206306633136417_1602460679336947609_n.jpg" 
+                             alt="Profile Image" 
+                             class="rounded-full w-full h-full object-cover border-4 border-white/20 shadow-lg"
+                             onerror="this.src='https://placehold.co/200x200/333333/FFFFFF?text=LJ'">
+                    </div>
+                    
+                    <div>
+                        <h1 class="text-4xl md:text-5xl font-bold text-white mb-2">Gymrat</h1>
+                        <p class="text-lg text-red-500 font-medium mb-4">@Lestin Jan N. Malbataan</p>
+                        <p class="text-lg text-gray-200 mb-4">"Improving myself because my future partner deserves the best version of me."</p>
+                        <p class="text-md italic text-gray-400 mb-6">In the gym we trust</p>
+                        
+                        <div class="flex flex-col sm:flex-row justify-center md:justify-start gap-4">
+                            <button class="px-6 py-2 bg-red-700 text-white font-semibold rounded-full hover:bg-red-600 transition-all duration-300 transform hover:scale-105 shadow-lg">
+                                Follow
+                            </button>
+                            <button class="px-6 py-2 bg-white/10 text-white font-semibold rounded-full border border-white/20 hover:bg-white/20 transition-all duration-300 transform hover:scale-105">
+                                Message
+                            </button>
+                        </div>
+                        
+                        <div class="flex justify-center md:justify-start gap-6 mt-8">
+                            
+                            <a href="https://www.instagram.com/ljnn.m_/" target="_blank" class="text-gray-300 hover:text-red-500 transition-colors duration-300" title="Instagram">
+                                <svg class="w-7 h-7" role="img" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                    <title>Instagram</title>
+                                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.17.055 1.805.248 2.227.42.49.188.883.44 1.302.859.417.417.67.812.859 1.302.172.422.365 1.057.42 2.227.058 1.265.07 1.646.07 4.85s-.012 3.585-.07 4.85c-.055 1.17-.248 1.805-.42 2.227-.188.49-.44.883-.859 1.302-.417.417-.812.67-1.302.859-.422.172-1.057.365-2.227.42-1.265.058-1.646.07-4.85.07s-3.585-.012-4.85-.07c-1.17-.055-1.805-.248-2.227-.42-.49-.188-.883.44-1.302-.859-.417-.417-.67-.812-.859-1.302-.172-.422-.365-1.057-.42-2.227-.058-1.265-.07-1.646-.07-4.85s.012-3.585.07-4.85c.055-1.17.248-1.805.42-2.227.188-.49.44-.883.859-1.302.417-.417.812-.67 1.302-.859.422-.172 1.057-.365 2.227-.42C8.416 2.175 8.796 2.163 12 2.163m0-2.163C8.74 0 8.333.015 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.936 3.35.63 4.14C.333 4.905.131 5.775.072 7.053.012 8.333 0 8.74 0 12s.015 3.667.072 4.947c.06 1.277.261 2.148.558 2.913.306.788.717 1.459 1.384 2.126s1.338.936 2.126 1.384c.765.297 1.636.499 2.913.558C8.333 23.988 8.74 24 12 24s3.667-.015 4.947-.072c1.277-.06 2.148-.262 2.913-.558.788-.306 1.459-.717 2.126-1.384s.936-1.338 1.384-2.126c.297-.765.499-1.636.558-2.913.06-1.28.072-1.687.072-4.947s-.015-3.667-.072-4.947c-.06-1.277-.262-2.148-.558-2.913-.306-.789-.717-1.459-1.384-2.126S20.65.936 19.86.63c-.765-.297-1.636-.499-2.913-.558C15.667.012 15.26 0 12 0z"/>
+                                    <path d="M12 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8z"/>
+                                    <path d="M16.965 5.595a1.44 1.44 0 1 1 2.88 0 1.44 1.44 0 0 1-2.88 0z"/>
+                                </svg>
+                            </a>
+                            <a href="https://github.com/ljnm19" target="_blank" class="text-gray-300 hover:text-red-500 transition-colors duration-300" title="GitHub">
+                                <svg class="w-7 h-7" role="img" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><title>GitHub</title><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+                            </a>
+                            <a href="https://www.facebook.com/lestin.malbataan" target="_blank" class="text-gray-300 hover:text-red-500 transition-colors duration-300" title="Facebook">
+                                <svg class="w-7 h-7" role="img" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><title>Facebook</title><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <a href="A04/index.html" class="btn btn-primary mt-3">Visit Site</a>
-          </div>
-        </div>
-      </div>
+        </header>
 
+        <section id="music-player" class="container mx-auto max-w-5xl px-4 py-16 fade-in-up">
+            <div class="glass-effect rounded-2xl p-8 md:p-12 flex flex-col items-center">
+                <h2 class="text-4xl font-bold text-center text-white mb-8">Music Player</h2>
+                
+                <div class="music-player-container w-full relative">
+                    
+                    <canvas id="music-notes-canvas"></canvas>
+                    
+                    <div id="album-art" class="mx-auto mb-6">
+                        <div class="disc-label"></div>
+                    </div>
 
-      <div class="col-12 col-sm-6 col-lg-4 d-flex">
-        <div class="card shadow-sm w-100">
-          <div class="card-body d-flex flex-column justify-content-between h-100">
-            <div>
-              <h5 class="card-title">A05</h5>
-              <h6 class="card-subtitle mb-2 text-muted">Sweden Features</h6>
+                    
+                    
+                    <svg id="tone-arm" class="lifted" viewBox="0 0 150 150">
+                        <defs>
+                            <filter id="shadow">
+                                <feDropShadow dx="1" dy="1" stdDeviation="1" flood-color="rgba(0,0,0,0.5)"/>
+                            </filter>
+                        </defs>
+                        <circle cx="140" cy="10" r="8" fill="#333" stroke="#222" stroke-width="1"/>
+                        <rect x="25" y="8" width="115" height="4" rx="2" fill="#555" filter="url(#shadow)"/>
+                        <path d="M20 8 L30 4 L30 12 L20 8 Z" fill="#666" stroke="#444" stroke-width="1" filter="url(#shadow)"/>
+                        <line x1="25" y1="10" x2="20" y2="25" stroke="#CCC" stroke-width="1" filter="url(#shadow)"/>
+                    </svg>
+                    
+                    <div class="text-center mb-4 relative z-10">
+                        <h3 id="song-title" class="text-2xl font-semibold text-white">Select a Song</h3>
+                        <p id="song-artist" class="text-gray-300">Artist Name</p>
+                    </div>
+
+                    <audio id="audio-player"></audio>
+
+                    <div class="controls flex justify-center items-center gap-4 mb-6 relative z-10">
+                        <button id="prev-btn" title="Previous">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M4 5h3v10H4V5zm3 5l9-5v10l-9-5z"/></svg>
+                        </button>
+                        <button id="play-pause-btn" title="Play">
+                            <svg id="play-icon" class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path d="M5 5v10l10-5-10-5z"/></svg>
+                            <svg id="pause-icon" class="w-6 h-6 hidden" fill="currentColor" viewBox="0 0 20 20"><path d="M5 5h3v10H5V5zm7 0h3v10h-3V5z"/></svg>
+                        </button>
+                        <button id="next-btn" title="Next">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M13 5h3v10h-3V5zM4 5v10l9-5-9-5z"/></svg>
+                        </button>
+                    </div>
+
+                    <div class="custom-select w-full max-w-xs mx-auto relative z-10">
+                        <select id="song-selector" class="text-lg">
+                            </select>
+                        <div class="custom-select-arrow">
+                            <svg class="w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <a href="A05/index.html" class="btn btn-primary mt-3">Visit Site</a>
-          </div>
-        </div>
-      </div>
+        </section>
 
+        <section id="projects" class="container mx-auto max-w-7xl px-4 py-16 fade-in-up">
+            <h2 class="text-4xl font-bold text-center text-white mb-12">My Projects</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
 
-      <div class="col-12 col-sm-6 col-lg-4 d-flex">
-        <div class="card shadow-sm w-100">
-          <div class="card-body d-flex flex-column justify-content-between h-100">
-            <div>
-              <h5 class="card-title">A06</h5>
-              <h6 class="card-subtitle mb-2 text-muted">Gallery</h6>
+                <div class="glass-effect rounded-2xl overflow-hidden transition-all duration-300 transform hover:scale-105 hover:bg-black/50 group">
+                    <img src="Profile Image/ip.webp" 
+                         alt="iPhone 16 Pro Showcase" 
+                         class="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-110"
+                         onerror="this.src='https://placehold.co/600x400/333333/FFFFFF?text=Project+Thumbnail'">
+                    <div class="p-6">
+                        <h3 class="text-2xl font-semibold text-white mb-2">A04</h3>
+                        <p class="text-gray-300 mb-4">iPhone 16 Pro Showcase</p>
+                        <a href="A04/index.html" class="inline-block px-5 py-2 bg-red-700 text-white font-semibold rounded-full hover:bg-red-600 transition-colors duration-300">
+                            Visit Site
+                        </a>
+                    </div>
+                </div>
+
+                <div class="glass-effect rounded-2xl overflow-hidden transition-all duration-300 transform hover:scale-105 hover:bg-black/50 group">
+                    <img src="Profile Image/sweden.jpg" 
+                         alt="Sweden Features" 
+                         class="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-110"
+                         onerror="this.src='https://placehold.co/600x400/333333/FFFFFF?text=Project+Thumbnail'">
+                    <div class="p-6">
+                        <h3 class="text-2xl font-semibold text-white mb-2">A05</h3>
+                        <p class="text-gray-300 mb-4">Sweden Features</p>
+                        <a href="A05/index.html" class="inline-block px-5 py-2 bg-red-700 text-white font-semibold rounded-full hover:bg-red-600 transition-colors duration-300">
+                            Visit Site
+                        </a>
+                    </div>
+                </div>
+
+                <div class="glass-effect rounded-2xl overflow-hidden transition-all duration-300 transform hover:scale-105 hover:bg-black/50 group">
+                    <img src="Profile Image/wal.jpg" 
+                         alt="Gallery" 
+                         class="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-110"
+                         onerror="this.src='https://placehold.co/600x400/333333/FFFFFF?text=Project+Thumbnail'">
+                    <div class="p-6">
+                        <h3 class="text-2xl font-semibold text-white mb-2">A06</h3>
+                        <p class="text-gray-300 mb-4">Gallery</p>
+                        <a href="A06/Index.html" class="inline-block px-5 py-2 bg-red-700 text-white font-semibold rounded-full hover:bg-red-600 transition-colors duration-300">
+                            Visit Site
+                        </a>
+                    </div>
+                </div>
+
+                <div class="glass-effect rounded-2xl overflow-hidden transition-all duration-300 transform hover:scale-105 hover:bg-black/50 group">
+                    <img src="Profile Image/nisekoi.jpg" 
+                         alt="HUG GIFs" 
+                         class="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-110"
+                         onerror="this.src='https://placehold.co/600x400/333333/FFFFFF?text=Project+Thumbnail'">
+                    <div class="p-6">
+                        <h3 class="text-2xl font-semibold text-white mb-2">A07</h3>
+                        <p class="text-gray-300 mb-4">HUG GIFs</p>
+                        <a href="A07/index.html" class="inline-block px-5 py-2 bg-red-700 text-white font-semibold rounded-full hover:bg-red-600 transition-colors duration-300">
+                            Visit Site
+                        </a>
+                    </div>
+                </div>
+
+                <div class="glass-effect rounded-2xl overflow-hidden transition-all duration-300 transform hover:scale-105 hover:bg-black/50 group">
+                    <img src="Profile Image/gow.webp" 
+                         alt="Parallax" 
+                         class="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-110"
+                         onerror="this.src='https://placehold.co/600x400/333333/FFFFFF?text=Project+Thumbnail'">
+                    <div class="p-6">
+                        <h3 class="text-2xl font-semibold text-white mb-2">A08</h3>
+                        <p class="text-gray-300 mb-4">Parallax</p>
+                        <a href="A08/EZ-Parallax-master/index.html" class="inline-block px-5 py-2 bg-red-700 text-white font-semibold rounded-full hover:bg-red-600 transition-colors duration-300">
+                            Visit Site
+                        </a>
+                    </div>
+                </div>
+
+                <div class="glass-effect rounded-2xl overflow-hidden transition-all duration-300 transform hover:scale-105 hover:bg-black/50 group">
+                    <img src="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExOWx4anozeWhxdDhjYnhqcGZvbTYybmYxcTQycnQ3aWt2YWxxbnp2ZCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/1VT3UNeWdijUSMpRL4/giphy.gif" 
+                         alt="Cafe Luxe Branding" 
+                         class="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-110"
+                         onerror="this.src='https://placehold.co/600x400/333333/FFFFFF?text=Project+Thumbnail'">
+                    <div class="p-6">
+                        <h3 class="text-2xl font-semibold text-white mb-2">A09</h3>
+                        <p class="text-gray-300 mb-4">Coming Soon!</p>
+                        <a href="A09/index.html" class="inline-block px-5 py-2 bg-red-700 text-white font-semibold rounded-full hover:bg-red-600 transition-colors duration-300 ">
+                            Visit Site
+                        </a>
+                    </div>
+                </div>
+
             </div>
-            <a href="A06/Index.html" class="btn btn-primary mt-3">Visit Site</a>
-          </div>
-        </div>
-      </div>
+        </section>
 
+    </main>
 
-      <div class="col-12 col-sm-6 col-lg-4 d-flex">
-        <div class="card shadow-sm w-100">
-          <div class="card-body d-flex flex-column justify-content-between h-100">
-            <div>
-              <h5 class="card-title">A07</h5>
-              <h6 class="card-subtitle mb-2 text-muted">HUG GIFs</h6>
+    
+    <footer id="contact" class="mt-24 py-16 glass-effect border-t border-white/5">
+        <div class="container mx-auto max-w-7xl px-4 text-center text-gray-400">
+            
+            
+            <p class="text-lg italic text-gray-300 mb-6">"I'm gonna make him an offer he can't refuse."</p>
+            
+            
+            <div class="w-24 h-px bg-white/10 mx-auto mb-6"></div>
+
+            
+            <div class="flex justify-center gap-6 mb-8">
+                
+                <a href="https://www.instagram.com/ljnn.m_/" target="_blank" class="text-gray-300 hover:text-red-500 transition-colors duration-300" title="Instagram">
+                    <svg class="w-6 h-6" role="img" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <title>Instagram</title>
+                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.17.055 1.805.248 2.227.42.49.188.883.44 1.302.859.417.417.67.812.859 1.302.172.422.365 1.057.42 2.227.058 1.265.07 1.646.07 4.85s-.012 3.585-.07 4.85c-.055 1.17-.248 1.805-.42 2.227-.188.49-.44.883-.859 1.302-.417.417-.812.67-1.302.859-.422.172-1.057.365-2.227.42-1.265.058-1.646.07-4.85.07s-3.585-.012-4.85-.07c-1.17-.055-1.805-.248-2.227-.42-.49-.188-.883.44-1.302-.859-.417-.417-.67-.812-.859-1.302-.172-.422-.365-1.057-.42-2.227-.058-1.265-.07-1.646-.07-4.85s.012-3.585.07-4.85c.055-1.17.248-1.805.42-2.227.188-.49.44-.883.859-1.302.417-.417.812-.67 1.302-.859.422-.172 1.057-.365 2.227-.42C8.416 2.175 8.796 2.163 12 2.163m0-2.163C8.74 0 8.333.015 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.936 3.35.63 4.14C.333 4.905.131 5.775.072 7.053.012 8.333 0 8.74 0 12s.015 3.667.072 4.947c.06 1.277.261 2.148.558 2.913.306.788.717 1.459 1.384 2.126s1.338.936 2.126 1.384c.765.297 1.636.499 2.913.558C8.333 23.988 8.74 24 12 24s3.667-.015 4.947-.072c1.277-.06 2.148-.262 2.913-.558.788-.306 1.459-.717 2.126-1.384s.936-1.338 1.384-2.126c.297-.765.499-1.636.558-2.913.06-1.28.072-1.687.072-4.947s-.015-3.667-.072-4.947c-.06-1.277-.262-2.148-.558-2.913-.306-.789-.717-1.459-1.384-2.126S20.65.936 19.86.63c-.765-.297-1.636-.499-2.913-.558C15.667.012 15.26 0 12 0z"/>
+                        <path d="M12 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8z"/>
+                        <path d="M16.965 5.595a1.44 1.44 0 1 1 2.88 0 1.44 1.44 0 0 1-2.88 0z"/>
+                    </svg>
+                </a>
+                <a href="https://github.com/ljnm19" target="_blank" class="text-gray-300 hover:text-red-500 transition-colors duration-300" title="GitHub">
+                    <svg class="w-6 h-6" role="img" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><title>GitHub</title><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+                </a>
+                <a href="https://www.facebook.com/lestin.malbataan" target="_blank" class="text-gray-300 hover:text-red-500 transition-colors duration-300" title="Facebook">
+                    <svg class="w-6 h-6" role="img" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><title>Facebook</title><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                </a>
             </div>
-            <a href="A07/index.html" class="btn btn-primary mt-3">Visit Site</a>
-          </div>
+
+            
+            <p class="text-sm">&copy; 2025 <span class="font-bold font-['Cinzel'] text-gray-200">Lestin Jan N. Malbataan</span>. All rights reserved.</p>
+            <p class="text-xs text-gray-500 mt-2">never hate your enemy, it affects your judgement.</p>
         </div>
-      </div>
+    </footer>
 
 
-      <div class="col-12 col-sm-6 col-lg-4 d-flex">
-        <div class="card shadow-sm w-100">
-          <div class="card-body d-flex flex-column justify-content-between h-100">
-            <div>
-              <h5 class="card-title">A08</h5>
-              <h6 class="card-subtitle mb-2 text-muted">Parallax</h6>
-            </div>
-            <a href="A08/EZ-Parallax-master/index.html" class="btn btn-primary mt-3">Visit Site</a>
-          </div>
-        </div>
-      </div>
+    <script>
+        const canvas = document.getElementById('particle-canvas');
+        
+        const ctx = canvas.getContext('2d');
+
+        let particles = [];
+        const numParticles = 100; 
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            initParticles(); 
+        }
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                
+                this.z = Math.random() * (canvas.width / 2); 
+                this.size = Math.random() * 4 + 2; 
+                this.opacity = Math.random() * 0.4 + 0.2; 
+                
+                
+                this.baseSpeed = 0.05;
+                
+                
+                this.speedX = (Math.random() - 0.5) * this.baseSpeed * (this.z / (canvas.width / 2));
+                this.speedY = (Math.random() - 0.5) * this.baseSpeed * (this.z / (canvas.width / 2)) + this.baseSpeed * 1.5; 
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+
+                
+                if (this.x < 0) this.x = canvas.width;
+                if (this.x > canvas.width) this.x = 0;
+                if (this.y < 0) this.y = canvas.height;
+                if (this.y > canvas.height) this.y = 0;
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                
+                ctx.fillStyle = `rgba(220, 38, 38, ${this.opacity})`;
+                ctx.fill();
+            }
+        }
+
+        function initParticles() {
+            particles = [];
+            for (let i = 0; i < numParticles; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function animate() {
+            
+            ctx.fillStyle = '#1a1a1a';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            particles.forEach(particle => {
+                particle.update();
+                particle.draw();
+            });
+
+            requestAnimationFrame(animate);
+        }
+
+        
+        window.addEventListener('resize', resizeCanvas);
+
+        
+        resizeCanvas(); 
+        animate(); 
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            const songs = [
+                { 
+                    title: "The God Father (Love Theme)", 
+                    artist: "David Davidson", 
+                    src: "music/tgf.mp3" 
+                },
+                { 
+                    title: "Dobro Vecer", 
+                    artist: "Farazi V. Kayra", 
+                    src: "music/farazi.mp3" 
+                },
+                
+                { 
+                    title: "Happy Nation", 
+                    artist: "Ace of Base", 
+                    src: "music/happy.mp3" 
+                },
+                { 
+                    title: "Love Story", 
+                    artist: "Adila Sedraïa", 
+                    src: "music/indila.mp3" 
+                },
+                { 
+                    title: "Skyfall", 
+                    artist: "Adele", 
+                    src: "music/sky.mp3" 
+                }
+            ];
+            
+
+            let currentSongIndex = 0;
+            let isPlaying = false;
+
+            
+            const audioPlayer = document.getElementById('audio-player');
+            const albumArt = document.getElementById('album-art');
+            const songTitle = document.getElementById('song-title');
+            const songArtist = document.getElementById('song-artist');
+            const songSelector = document.getElementById('song-selector');
+            const playPauseBtn = document.getElementById('play-pause-btn');
+            const playIcon = document.getElementById('play-icon');
+            const pauseIcon = document.getElementById('pause-icon');
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            const toneArm = document.getElementById('tone-arm'); 
+
+            
+            const notesCanvas = document.getElementById('music-notes-canvas');
+            const notesCtx = notesCanvas.getContext('2d');
+            let musicNotes = [];
+
+            
+            class MusicNote {
+                constructor() {
+                    
+                    this.x = (notesCanvas.width / 2) + (Math.random() - 0.5) * (notesCanvas.width * 0.8);
+                    this.y = notesCanvas.height - (Math.random() * 50); 
+                    this.size = Math.random() * 15 + 10; 
+                    this.speedY = Math.random() * 1 + 0.5; 
+                    this.opacity = 1;
+                    this.note = Math.random() < 0.5 ? '♪' : '♫'; 
+                }
+
+                update() {
+                    this.y -= this.speedY;
+                    this.opacity -= 0.015; 
+                }
+
+                draw() {
+                    if (this.opacity <= 0) return;
+                    notesCtx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
+                    notesCtx.font = `${this.size}px 'EB Garamond', serif`;
+                    notesCtx.fillText(this.note, this.x, this.y);
+                }
+            }
+
+            
+            function animateMusicNotes() {
+                
+                if (!isPlaying) {
+                    notesCtx.clearRect(0, 0, notesCanvas.width, notesCanvas.height);
+                    musicNotes = []; 
+                    return; 
+                }
+
+                
+                notesCtx.clearRect(0, 0, notesCanvas.width, notesCanvas.height);
+
+                
+                if (Math.random() < 0.1) { 
+                    musicNotes.push(new MusicNote());
+                }
+
+                
+                for (let i = musicNotes.length - 1; i >= 0; i--) {
+                    const note = musicNotes[i];
+                    note.update();
+                    note.draw();
+
+                    
+                    if (note.opacity <= 0) {
+                        musicNotes.splice(i, 1);
+                    }
+                }
+
+                
+                requestAnimationFrame(animateMusicNotes);
+            }
 
 
-      <div class="col-12 col-sm-6 col-lg-4 d-flex">
-        <div class="card shadow-sm w-100">
-          <div class="card-body d-flex flex-column justify-content-between h-100">
-            <div>
-              <h5 class="card-title">A09</h5>
-              <h6 class="card-subtitle mb-2 text-muted">Cafe Luxe Branding</h6>
-            </div>
-            <a href="A09/index.html" class="btn btn-primary mt-3">Visit Site</a>
-          </div>
-        </div>
-      </div>
+            
+            function loadSong(songIndex) {
+                const song = songs[songIndex];
+                songTitle.textContent = song.title;
+                songArtist.textContent = song.artist;
+                audioPlayer.src = song.src;
+                songSelector.value = songIndex;
+            }
+
+            function playSong() {
+                const wasPlaying = isPlaying; 
+                isPlaying = true;
+                const playPromise = audioPlayer.play();
+                
+                if (playPromise !== undefined) {
+                    playPromise.then(_ => {
+                        albumArt.classList.add('spinning');
+                        toneArm.classList.remove('lifted');
+                        toneArm.classList.add('playing');
+                        playIcon.classList.add('hidden');
+                        pauseIcon.classList.remove('hidden');
+                        playPauseBtn.setAttribute('title', 'Pause');
+
+                        
+                        if (!wasPlaying) {
+                            animateMusicNotes();
+                        }
+                    }).catch(error => {
+                        console.error("Audio playback error:", error);
+                        isPlaying = false; 
+                        pauseSong(); 
+                    });
+                }
+            }
+
+            function pauseSong() {
+                isPlaying = false;
+                audioPlayer.pause();
+                albumArt.classList.remove('spinning');
+                toneArm.classList.remove('playing');
+                toneArm.classList.add('lifted');
+                playIcon.classList.remove('hidden');
+                pauseIcon.classList.add('hidden');
+                playPauseBtn.setAttribute('title', 'Play');
+            }
+
+            function togglePlayPause() {
+                if (isPlaying) {
+                    pauseSong();
+                } else {
+                    playSong();
+                }
+            }
+
+            function playNextSong() {
+                currentSongIndex = (currentSongIndex + 1) % songs.length;
+                loadSong(currentSongIndex);
+                playSong();
+            }
+
+            function playPrevSong() {
+                currentSongIndex = (currentSongIndex - 1 + songs.length) % songs.length;
+                loadSong(currentSongIndex);
+                playSong();
+            }
+
+            
+            function populateSelector() {
+                songs.forEach((song, index) => {
+                    const option = document.createElement('option');
+                    option.value = index;
+                    option.textContent = `${song.title} - ${song.artist}`;
+                    songSelector.appendChild(option);
+                });
+            }
+
+            
+            playPauseBtn.addEventListener('click', togglePlayPause);
+            nextBtn.addEventListener('click', playNextSong);
+            prevBtn.addEventListener('click', playPrevSong);
+
+            songSelector.addEventListener('change', () => {
+                currentSongIndex = parseInt(songSelector.value);
+                loadSong(currentSongIndex);
+                
+                if (!isPlaying) {
+                    playSong(); 
+                } else {
+                    playSong(); 
+                }
+            });
+            
+            audioPlayer.addEventListener('ended', playNextSong);
+
+            
+            populateSelector();
+            loadSong(currentSongIndex);
+            toneArm.classList.add('lifted'); 
+
+            
+            function resizeNotesCanvas() {
+                if (!notesCanvas) return;
+                notesCanvas.width = notesCanvas.clientWidth;
+                notesCanvas.height = notesCanvas.clientHeight;
+            }
+            window.addEventListener('resize', resizeNotesCanvas);
+            resizeNotesCanvas(); 
+        });
+    </script>
+
+</body>
+</html>
+

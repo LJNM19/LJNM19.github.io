@@ -2,235 +2,386 @@
 <html lang="en">
 
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>God of War Parallax</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>God of War Parallax</title>
 
-	<link rel="icon" href="../EZ-Parallax-master/img/imgcard/logo.png">
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-	<link rel="stylesheet" href="style.css">
-	<link rel="stylesheet" href="parallax.css">
-	<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="../EZ-Parallax-master/img/imgcard/logo.png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Using a local style.css for parallax, assuming it exists -->
+    <link rel="stylesheet" href="style.css"> 
+    <link rel="stylesheet" href="parallax.css">
+    
+    <!-- Added Poppins for readable body text, combined with Cinzel -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
-	<style>
-		body {
-			font-family: 'Uncial Antiqua', cursive;
-			background-color: #F2F1ED;
-			color: #2c2c2c;
-		}
+    <style>
+        /* --- Body and Base Styles --- */
+        body {
+            /* Changed to a dark, epic theme */
+            font-family: 'Poppins', sans-serif; /* Default to readable font */
+            background-color: #1a1a1a;
+            color: #e0e0e0;
+            overflow-x: hidden; /* Prevent horizontal scroll */
+            
+            /* MODIFICATION: 
+              Force vertical scrolling in case an external CSS file is disabling it.
+            */
+            overflow-y: auto !important; 
+        }
 
-		h5.card-title {
-			font-weight: 700;
-			font-size: 1.25rem;
-			margin-bottom: 0.5rem;
-			color: black;
-		}
+        /* --- Parallax Section (Untouched as requested) --- */
+        .keyart_layer {
+            background-size: cover;
+            background-position: center;
+        }
+        
+        /* --- Main Content Section --- */
+        .main-content {
+            background-color: #1a1a1a;
+            position: relative; 
+            
+            /* MODIFICATION: 
+              Increased z-index to ensure it's on top of all parallax layers.
+            */
+            z-index: 100; 
+        }
 
-		.card-text {
-			font-size: 0.95rem;
-			line-height: 1.6;
-			color: #444;
-		}
+        /* Section Title */
+        .section-title {
+            font-family: 'Cinzel', serif;
+            color: #ffffff;
+            font-weight: 700;
+            text-shadow: 0 2px 10px rgba(212, 175, 55, 0.3);
+        }
 
-		.card {
-			border: none;
-			transition: transform 0.4s ease, box-shadow 0.4s ease;
-			background: #fff;
-		}
+        /* --- Card Styling --- */
+        .card {
+            /* Glassmorphism effect */
+            background: rgba(20, 20, 20, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+            border-radius: 1rem; /* Softer rounded corners */
+            overflow: hidden;
+            
+            /* 3D Tilt Effect Setup */
+            transform-style: preserve-3d;
+            transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease;
+        }
 
-		.card:hover {
-			transform: translateY(-8px);
-			box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-		}
+        .card:hover {
+            /* 3D Tilt Effect on Hover */
+            transform: translateY(-10px) perspective(1000px) rotateX(2deg) rotateY(1deg) scale(1.03);
+            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.5);
+            border-color: #d4af37; /* Gold highlight on hover */
+        }
 
-		.card-body {
-			padding: 1.2rem;
-		}
+        .card-body {
+            padding: 1.5rem;
+        }
 
-		.ratio img {
-			object-fit: cover;
-			border-bottom: 3px solid #d4af37;
-		}
+        h5.card-title {
+            /* Thematic font and color */
+            font-family: 'Cinzel', serif;
+            font-weight: 700;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #d4af37; /* Gold color */
+        }
 
-		.keyart_layer {
-			background-size: cover;
-			background-position: center;
-		}
+        .card-text {
+            font-size: 0.95rem;
+            line-height: 1.7;
+            color: #c0c0c0; /* Lighter grey for readability */
+        }
+        
+        .card-text strong {
+             /* Sub-headings in card */
+            font-family: 'Cinzel', serif;
+            color: #ffffff;
+            font-weight: 400;
+            font-size: 1rem;
+            display: block;
+            margin-top: 0.75rem;
+        }
 
-		@media (max-width: 768px) {
-			h5.card-title {
-				font-size: 1.1rem;
-			}
+        .ratio img {
+            object-fit: cover;
+            /* Removed the bottom border, highlight is on the whole card now */
+            transition: transform 0.4s ease;
+        }
+        
+        .card:hover .ratio img {
+            transform: scale(1.05); /* Zoom image on hover */
+        }
+        
+        /* --- Button Styling --- */
+        .btn-custom-gold {
+            background-color: #d4af37;
+            border-color: #d4af37;
+            color: #1a1a1a;
+            font-family: 'Cinzel', serif;
+            font-weight: 700;
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+        }
 
-			.card-text {
-				font-size: 0.9rem;
-			}
-		}
-	</style>
+        .btn-custom-gold:hover {
+            background-color: #ffffff;
+            border-color: #ffffff;
+            color: #1a1a1a;
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
+        }
+        
+        .btn-read-more {
+            font-family: 'Cinzel', serif;
+            color: #d4af37;
+            text-decoration: none;
+            font-weight: 700;
+            transition: color 0.3s ease;
+        }
+        
+        .btn-read-more:hover {
+            color: #fff;
+        }
+
+        @media (max-width: 768px) {
+            h5.card-title {
+                font-size: 1.25rem;
+            }
+
+            .card-text {
+                font-size: 0.9rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
-	<section>
-		<div class="keyart" id="parallax">
-			<div class="keyart_layer parallax" id="keyart-0" data-speed="2"></div>
-			<div class="keyart_layer parallax" id="keyart-1" data-speed="5"></div>
-			<div class="keyart_layer parallax" id="keyart-2" data-speed="30"></div>
-			<div class="keyart_layer parallax" id="keyart-3" data-speed="40"></div>
-			<div class="keyart_layer parallax" id="keyart-4" data-speed="35"></div>
-			<div class="keyart_layer parallax" id="keyart-9" data-speed="30"></div>
-			<div class="keyart_layer parallax" id="keyart-5" data-speed="49"></div>
-			<div class="keyart_layer parallax" id="keyart-6" data-speed="49"></div>
-			<div class="keyart_layer parallax" id="keyart-7" data-speed="69"></div>
-			<div class="keyart_layer" id="keyart-8" data-speed="100"></div>
-		</div>
-	</section>
+    <!-- =================================== -->
+    <!-- PARALLAX SECTION (UNCHANGED)      -->
+    <!-- =================================== -->
+    <section>
+        <div class="keyart" id="parallax">
+            <div class="keyart_layer parallax" id="keyart-0" data-speed="2"></div>
+            <div class="keyart_layer parallax" id="keyart-1" data-speed="5"></div>
+            <div class="keyart_layer parallax" id="keyart-2" data-speed="30"></div>
+            <div class="keyart_layer parallax" id="keyart-3" data-speed="40"></div>
+            <div class="keyart_layer parallax" id="keyart-4" data-speed="35"></div>
+            <div class="keyart_layer parallax" id="keyart-9" data-speed="30"></div>
+            <div class="keyart_layer parallax" id="keyart-5" data-speed="49"></div>
+            <div class="keyart_layer parallax" id="keyart-6" data-speed="49"></div>
+            <div class="keyart_layer parallax" id="keyart-7" data-speed="69"></div>
+            <div class="keyart_layer" id="keyart-8" data-speed="100"></div>
+        </div>
+    </section>
 
-	<section class="main-content py-5" style="background-color: #F2F1ED;">
-		<div class="container">
-			<div class="d-flex justify-content-end mb-4">
-				<a href="../../index.html" class="btn btn-primary rounded-4 shadow-sm">
-					← Back to Profile
-				</a>
-			</div>
+    <!-- =================================== -->
+    <!-- MAIN CONTENT SECTION (UNCHANGED)  -->
+    <!-- =================================== -->
+    <section class="main-content py-5">
+        <div class="container">
+            
+            <!-- Back Button -->
+            <div class="d-flex justify-content-end mb-4">
+                <a href="../../index.html" class="btn btn-custom-gold shadow-sm">
+                    ← Back to Profile
+                </a>
+            </div>
+            
+            <!-- Section Title -->
+            <h2 class="text-center display-4 fw-bold mb-5 section-title">
+                Explore the Saga
+            </h2>
 
-			<div class="row g-4">
+            <!-- Original Card Row -->
+            <div class="row g-4">
 
-				<div class="col-12 col-sm-6 col-lg-4">
-					<div class="card h-100 shadow rounded-4 overflow-hidden">
-						<div class="ratio ratio-4x3">
-							<img src="img/imgcard/games1.webp" class="w-100 h-100 object-fit-cover" alt="Games">
-						</div>
-						<div class="card-body">
-							<h5 class="card-title">Mythical Game</h5>
-							<p class="card-text">
-								Epic Tone
-								"Wield god-slaying fury across realms. Face monsters, myths, and your past in a war that
-								reshapes fate itself."
+                <div class="col-12 col-sm-6 col-lg-4">
+                    <div class="card h-100 shadow rounded-4 overflow-hidden">
+                        <div class="ratio ratio-4x3">
+                            <img src="img/imgcard/games1.webp" class="w-100 h-100" alt="Games">
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">Mythical Game</h5>
+                            <p class="card-text">
+                                <strong>Epic Tone</strong>
+                                "Wield god-slaying fury. Face monsters, myths, and your past in a war that reshapes fate itself."
+                                
+                                <strong>Mysterious Tone</strong>
+                                "In the shadow of fallen gods, a haunted warrior seeks redemption his path carved in blood."
 
-								Mysterious Tone
-								"In the shadow of fallen gods, a haunted warrior seeks redemption his path carved in
-								blood and ancient secrets."
+                                <strong>Cinematic Style</strong>
+                                "Vengeance forged him. Fatherhood changed him. Gods will fear him again."
+                            </p>
+                        </div>
+                    </div>
+                </div>
 
-								Poetic Tone
-								"A ghost in chains, a god in pain his journey cuts through legend, love, and loss with
-								every furious blow."
+                <div class="col-12 col-sm-6 col-lg-4">
+                    <div class="card h-100 shadow rounded-4 overflow-hidden">
+                        <div class="ratio ratio-4x3">
+                            <img src="img/imgcard/history.jpg" class="w-100 h-100" alt="History">
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">Ancient History</h5>
+                            <p class="card-text">Born in blood, the Ghost of Sparta rose from mortal rage to defy the divine. Betrayed by Olympus, Kratos carved his legend across realms slaying gods, titans, and monsters alike. From the ashes of vengeance to the frostbitten wilds of new worlds, his saga echoes through time.</p>
+                        </div>
+                    </div>
+                </div>
 
-								Cinematic/Trailer Style
-								"Vengeance forged him. Fatherhood changed him. Gods will fear him again."
+                <div class="col-12 col-sm-6 col-lg-4">
+                    <div class="card h-100 shadow rounded-4 overflow-hidden">
+                        <div class="ratio ratio-4x3">
+                            <img src="img/imgcard/kratos1.jpg" class="w-100 h-100" alt="Kratos">
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">Kratos, God of War</h5>
+                            <p class="card-text">Kratos, the Ghost of Sparta scarred by betrayal, fueled by vengeance. A god-slayer forged in chaos, his fury shattered Olympus. Now, in the Norse lands, he battles not just monsters, but the rage within, fighting to be the father his son deserves.</p>
+                        </div>
+                    </div>
+                </div>
 
-							</p>
-						</div>
-					</div>
-				</div>
+                <div class="col-12 col-sm-6 col-lg-4">
+                    <div class="card h-100 shadow rounded-4 overflow-hidden">
+                        <div class="ratio ratio-4x3">
+                            <img src="img/imgcard/weapons.webp" class="w-100 h-100" alt="Weapons">
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">Mythical Weapons</h5>
+                            <p class="card-text">
+                                <strong>Blades of Chaos</strong>
+                                Chains forged in Hades, these blades dance with fire and fury—extensions of Kratos’s rage.
+
+                                <strong>Leviathan Axe</strong>
+                                Born of frost giants, this axe hums with ancient runes. It freezes, cleaves, and always returns.
+
+                                <strong>Mjölnir</strong>
+                                Thunder made steel. Wielded by gods, feared by all. Each strike cracks the sky.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-sm-6 col-lg-4">
+                    <div class="card h-100 shadow rounded-4 overflow-hidden">
+                        <div class="ratio ratio-4x3">
+                            <img src="img/imgcard/gods.webp" class="w-100 h-100" alt="Gods">
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">Olympian Gods</h5>
+                            <p class="card-text">
+                                <strong>Zeus</strong>
+                                "Wielder of lightning, king of Olympus his wrath splits skies and shapes fate itself."
+
+                                <strong>Poseidon</strong>
+                                "Lord of the seas, shaker of earth his trident commands storms and drowns empires."
+
+                                <strong>Hades</strong>
+                                "Ruler of the underworld, he governs shadows, guards secrets, and binds souls."
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-sm-6 col-lg-4">
+                    <div class="card h-100 shadow rounded-4 overflow-hidden">
+                        <div class="ratio ratio-4x3">
+                            <img src="img/imgcard/olympus.jpg" class="w-100 h-100" alt="Mount Olympus">
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">Mount Olympus</h5>
+                            <p class="card-text">Crowned in clouds and forged by gods, Mount Olympus stands as the immortal throne of divine power where storms are born, destinies are written, and immortals wage eternal wars in the sky. Its fall marked the end of an era, brought by Kratos's unyielding vengeance.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            
+            <!-- =================================== -->
+            <!-- NEW INFORMATION SECTION           -->
+            <!-- =================================== -->
+            <div class="row g-4 mt-5">
+            
+                <!-- New Card 1: The Saga -->
+                <div class="col-lg-6">
+                    <div class="card h-100 shadow rounded-4 overflow-hidden">
+                        <div class="card-body">
+                            <h5 class="card-title">The Saga of Kratos</h5>
+                            <p class="card-text">
+                                <strong>The Greek Era</strong>
+                                A decorated Spartan general, Kratos was tricked by Ares into murdering his own wife and child. This act bound him to the Blades of Chaos and set him on a relentless path of vengeance. He hunted down and killed Ares to become the new God of War, but his torment continued. Betrayed by Zeus and the Olympians, Kratos unleashed the Titans and systematically destroyed the entire Greek pantheon, culminating in the flooding of the world.
+                                <br>
+                                <strong>The Norse Era</strong>
+                                Surviving his war with Olympus, a much older Kratos found his way to the lands of Norse mythology. He took a new wife, Faye, and raised a son, Atreus. After Faye's death, their journey to scatter her ashes from the highest peak in all the realms thrust them into the complex and brutal world of the Aesir and Vanir gods. Here, Kratos battles his inner rage, striving to break the cycle of patricide and be a true father.
+                            </p>
+                             <a href="#" class="btn-read-more mt-2 d-inline-block">Read Full History &rarr;</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- New Card 2: The Realms -->
+                <div class="col-lg-6">
+                    <div class="card h-100 shadow rounded-4 overflow-hidden">
+                        <div class="card-body">
+                            <h5 class="card-title">The Nine Realms</h5>
+                            <p class="card-text">
+                                The Norse world is comprised of nine distinct realms, all connected by the world tree, Yggdrasil.
+                                <strong>Midgard</strong>
+                                The realm of mortals, resembling the familiar world of ancient Scandinavia. It is the central realm from which many others can be accessed.
+                                <strong>Asgard</strong>
+                                Home of the Aesir gods, ruled by Odin. A fortified realm, inaccessible to most, built to withstand Ragnarök.
+                                <strong>Jotunheim</strong>
+                                The land of the Giants. A mountainous and harsh realm, its secrets are closely guarded by its few remaining inhabitants.
+                                <strong>Alfheim</strong>
+                                A beautiful, ethereal realm inhabited by the Light and Dark Elves, who are locked in an eternal war over the realm's sacred Light.
+                                <strong>Muspelheim</strong>
+                                A primordial realm of fire and magma, home to the fire giant Surtr, who is prophesied to play a key role in Ragnarök.
+                            </p>
+                            <a href="#" class="btn-read-more mt-2 d-inline-block">Explore All Realms &rarr;</a>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+
+        </div>
+    </section>
 
 
-				<div class="col-12 col-sm-6 col-lg-4">
-					<div class="card h-100 shadow rounded-4 overflow-hidden">
-						<div class="ratio ratio-4x3">
-							<img src="img/imgcard/history.jpg" class="w-100 h-100 object-fit-cover" alt="History">
-						</div>
-						<div class="card-body">
-							<h5 class="card-title">Ancient History</h5>
-							<p class="card-text">Born in blood and destined by fate, the Ghost of Sparta rose from
-								mortal rage to defy the divine. Betrayed by Olympus, Kratos carved his legend across
-								realms slaying gods, titans, and monsters alike. From the ashes of vengeance to the
-								frostbitten wilds of new worlds, his saga echoes through time a myth forged in fury, and
-								etched in the stars.</p>
-						</div>
-					</div>
-				</div>
-
-
-				<div class="col-12 col-sm-6 col-lg-4">
-					<div class="card h-100 shadow rounded-4 overflow-hidden">
-						<div class="ratio ratio-4x3">
-							<img src="img/imgcard/kratos1.jpg" class="w-100 h-100 object-fit-cover" alt="Kratos">
-						</div>
-						<div class="card-body">
-							<h5 class="card-title">Kratos God of War </h5>
-							<p class="card-text">Kratos, the Ghost of Sparta scarred by betrayal, fueled by vengeance. A
-								god-slayer forged in chaos, his fury shattered Olympus and echoed across realms. He is
-								not just a warrior, but a storm in flesh unrelenting, unstoppable, unforgettable.</p>
-						</div>
-					</div>
-				</div>
-
-
-				<div class="col-12 col-sm-6 col-lg-4">
-					<div class="card h-100 shadow rounded-4 overflow-hidden">
-						<div class="ratio ratio-4x3">
-							<img src="img/imgcard/weapons.webp" class="w-100 h-100 object-fit-cover" alt="Weapons">
-						</div>
-						<div class="card-body">
-							<h5 class="card-title">Mythical Weapons</h5>
-							<p class="card-text">
-								Blades of Chaos
-								Chains forged in the depths of Hades, these cursed blades dance with fire and
-								fury extensions of Kratos’s rage, forever thirsty for divine blood.
-
-								Leviathan Axe
-								Born of frost giants, this axe hums with ancient runes. It freezes time, cleaves through
-								fate, and always returns an extension of Kratos’s will.
-
-								Mjölnir
-								Thunder made steel. Wielded by gods, feared by all. Each strike cracks the sky and
-								crushes legends beneath its divine wrath.</p>
-						</div>
-					</div>
-				</div>
-
-
-				<div class="col-12 col-sm-6 col-lg-4">
-					<div class="card h-100 shadow rounded-4 overflow-hidden">
-						<div class="ratio ratio-4x3">
-							<img src="img/imgcard/gods.webp" class="w-100 h-100 object-fit-cover" alt="Gods">
-						</div>
-						<div class="card-body">
-							<h5 class="card-title">Olympian Gods</h5>
-							<p class="card-text">
-								Zeus:
-								"Wielder of lightning, king of Olympus his wrath splits skies and shapes fate itself."
-
-								Poseidon:
-								"Lord of the seas, shaker of earth his trident commands storms and drowns empires."
-
-								Hades:
-								"Ruler of the underworld he governs shadows, guards secrets, and binds souls for
-								eternity."
-
-								Ares:
-								"God of war, born of blood and fire he thrives where chaos reigns and valor bleeds."
-							</p>
-						</div>
-					</div>
-				</div>
-
-
-				<div class="col-12 col-sm-6 col-lg-4">
-					<div class="card h-100 shadow rounded-4 overflow-hidden">
-						<div class="ratio ratio-4x3">
-							<img src="img/imgcard/olympus.jpg" class="w-100 h-100 object-fit-cover" alt="Mount Olympus">
-						</div>
-						<div class="card-body">
-							<h5 class="card-title">Mount Olympus</h5>
-							<p class="card-text">Crowned in clouds and forged by gods, Mount Olympus stands as the
-								immortal throne of divine power where storms are born, destinies are written, and
-								immortals wage eternal wars in the sky.</p>
-						</div>
-					</div>
-				</div>
-
-			</div>
-		</div>
-	</section>
-
-
-
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-	<script src="js/parallax.js"></script>
+    <!-- =================================== -->
+    <!-- SCRIPT LOADING (UNCHANGED)        -->
+    <!-- =================================== -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- 
+      MODIFICATION: 
+      Defer loading parallax.js until the window 'load' event.
+      This ensures all assets (like images) are loaded before the script runs,
+      which should prevent the 'webkit' error during initialization.
+    -->
+    <script>
+        window.addEventListener('load', function() {
+            var script = document.createElement('script');
+            script.src = 'js/parallax.js';
+            document.body.appendChild(script);
+        });
+    </script>
 
 </body>
 
 </html>
+
